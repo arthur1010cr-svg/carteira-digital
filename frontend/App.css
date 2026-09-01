@@ -1,286 +1,267 @@
+/* ==========================================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ========================================================================== */
+:root {
+  /* Cores de Fundo (Gradientes) */
+  --bg-gradient-primary: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #060409 100%);
+  --card-gradient-purple: linear-gradient(135deg, #6c5ce7 0%, #a55eea 100%);
+  --card-gradient-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --btn-gradient-cyan: linear-gradient(90deg, #00cec9 0%, #0984e3 100%);
+
+  /* Cores de Feedback */
+  --color-success: #00b894;
+  --color-danger: #d63031;
+  --color-text-main: #ffffff;
+  --color-text-muted: #b2bec3;
+  
+  /* Efeitos */
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: rgba(0, 0, 0, 0.35);
+  --transition-fast: all 0.3s ease;
+}
+
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+  background: var(--bg-gradient-primary);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-button {
+/* ==========================================================================
+   2. LAYOUT DO APP CONTAINER
+   ========================================================================== */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(20, 15, 38, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  padding: 24px;
+  box-shadow: 0 20px 40px var(--glass-shadow);
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.brand-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: var(--btn-gradient-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   3. CARTÃO DE CRÉDITO / SALDO (HERO CARD)
+   ========================================================================== */
+.balance-card {
+  background: var(--card-gradient-purple);
+  border-radius: 24px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(108, 92, 231, 0.3);
+  margin-bottom: 24px;
+}
+
+/* Detalhe estético do gradiente de fundo do cartão */
+.balance-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.balance-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.balance-amount {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 8px 0 16px 0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ==========================================================================
+   4. AÇÕES RÁPIDAS (PIX, TRANSFERIR, PAGAR)
+   ========================================================================== */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.action-btn {
+  background: var(--card-gradient-dark);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 12px 8px;
+  color: var(--color-text-main);
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-fast);
 }
 
-/* HEADER */
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  border-color: #00cec9;
+}
 
-.header {
-  height: 70px;
-  background: #ffffff;
+.action-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   5. LISTA DE TRANSAÇÕES (EXTRATO)
+   ========================================================================== */
+.transactions-section {
+  background: var(--card-gradient-dark);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view-all-link {
+  font-size: 0.8rem;
+  color: #00cec9;
+  text-decoration: none;
+}
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tx-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo h2 {
-  margin: 0;
-}
-
-.header-user {
-  font-weight: bold;
-}
-
-/* SIDEBAR */
-
-.sidebar {
-  width: 230px;
-  min-height: calc(100vh - 70px);
-  background: #ffffff;
-  border-right: 1px solid #ddd;
-  padding: 25px 15px;
-}
-
-.sidebar nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.sidebar a {
-  text-decoration: none;
-  color: #333;
-  padding: 14px;
-  border-radius: 8px;
-}
-
-.sidebar a:hover {
-  background: #f0f0f0;
-}
-
-.sidebar-link {
-  border: 0;
-  background: transparent;
-  color: #333;
-  padding: 14px;
-  border-radius: 8px;
-  text-align: left;
-  font: inherit;
-}
-
-.sidebar-link:hover {
-  background: #f0f0f0;
-}
-
-/* LAYOUT */
-
-.home-content,
-.page-layout {
-  display: flex;
-}
-
-.dashboard,
-.page-content {
-  flex: 1;
-  padding: 35px;
-}
-
-/* SALDO */
-
-.saldo-card {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 25px;
-  margin-top: 25px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-}
-
-.saldo-card span {
-  color: #666;
-}
-
-.saldo-card h1 {
-  font-size: 32px;
-  margin: 12px 0;
-}
-
-.saldo-card p {
-  color: #777;
-}
-
-/* AÇÕES */
-
-.acoes {
-  display: flex;
-  gap: 15px;
-  margin: 25px 0;
-}
-
-.acoes button,
-.form-card button,
-.auth-card button,
-.perfil-card button {
-  border: none;
-  padding: 13px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  background: #222;
-  color: white;
-}
-
-.acoes a {
-  text-decoration: none;
-}
-
-/* TRANSAÇÕES */
-
-.ultimas-transacoes {
-  margin-top: 30px;
-}
-
-.transacoes-lista {
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
 
-.transacao-card {
-  background: #ffffff;
-  padding: 18px 20px;
-  border-radius: 10px;
+.tx-icon-bg {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
-}
-
-.transacao-card p {
-  margin: 5px 0 0;
-  color: #777;
-}
-
-.entrada {
-  color: green;
-}
-
-.saida {
-  color: red;
-}
-
-/* LOGIN E CADASTRO */
-
-.auth-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  background: #f4f6f8;
+  align-items: center;
 }
 
-.auth-card {
-  width: 400px;
-  background: white;
-  padding: 35px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.tx-name {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.auth-card h1 {
-  text-align: center;
+.tx-date {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
 }
 
-.auth-card h2 {
-  margin-top: 30px;
+.tx-amount {
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
-.auth-card form,
-.form-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Modificadores de Entrada/Saída */
+.tx-amount.income {
+  color: var(--color-success);
 }
 
-.auth-card input,
-.form-card input {
-  padding: 13px;
-  border: 1px solid #ccc;
-  border-radius: 7px;
-  margin-bottom: 10px;
+.tx-amount.expense {
+  color: var(--color-text-main);
 }
 
-.auth-card button {
-  margin-top: 10px;
-}
-
-.auth-card p {
-  text-align: center;
+/* ==========================================================================
+   6. COMPONENTES DE FORMULÁRIO (PARA INVESTIR / TRANSFERIR)
+   ========================================================================== */
+.main-button {
+  width: 100%;
+  background: var(--btn-gradient-cyan);
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 206, 201, 0.25);
+  transition: var(--transition-fast);
   margin-top: 20px;
 }
 
-.form-message {
-  margin: 16px 0 0;
-  text-align: center;
-}
-
-.form-message--error {
-  color: #b00020;
-}
-
-.form-message--success {
-  color: #167a35;
-}
-
-.auth-card a {
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* FORMULÁRIO */
-
-.form-card {
-  background: white;
-  max-width: 600px;
-  padding: 30px;
-  border-radius: 15px;
-  margin-top: 25px;
-}
-
-.form-card button {
-  margin-top: 10px;
-}
-
-/* CARTEIRA */
-
-.carteira-info {
-  background: white;
-  padding: 25px;
-  margin-top: 25px;
-  border-radius: 15px;
-}
-
-.carteira-info p {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-
-/* PERFIL */
-
-.perfil-card {
-  background: white;
-  max-width: 500px;
-  padding: 35px;
-  margin-top: 25px;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.avatar {
-  font-size: 60px;
-  margin-bottom: 15px;
-}
-
-.perfil-card button {
-  margin-top: 15px;
+.main-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 206, 201, 0.4);
 }

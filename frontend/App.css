@@ -64,6 +64,7 @@ body {
   font-size: 1.5rem;
   font-weight: 800;
   background: var(--btn-gradient-cyan);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

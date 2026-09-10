@@ -1,0 +1,11 @@
+import { Router } from "express";
+import { buscar, cancelar, listarMinhas, transferir } from "../controllers/transacaoController.js";
+import { exigirAutenticacao } from "../middlewares/authMiddleware.js";
+import { asyncRoute } from "../middlewares/errorMiddleware.js";
+const router = Router();
+router.use(exigirAutenticacao);
+router.get("/minhas", asyncRoute(listarMinhas));
+router.get("/:id", asyncRoute(buscar));
+router.post("/", asyncRoute(transferir));
+router.patch("/:id/cancelar", asyncRoute(cancelar));
+export default router;

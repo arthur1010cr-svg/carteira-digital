@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { atualizarPerfil, excluirPerfil, obterPerfil } from "../controllers/usuarioControllers.js";
+import { exigirAutenticacao } from "../middlewares/authMiddleware.js";
+import { asyncRoute } from "../middlewares/errorMiddleware.js";
+const router = Router();
+router.use(exigirAutenticacao);
+router.get("/me", asyncRoute(obterPerfil));
+router.put("/me", asyncRoute(atualizarPerfil));
+router.delete("/me", asyncRoute(excluirPerfil));
+export default router;

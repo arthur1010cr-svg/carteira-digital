@@ -1,35 +1,3 @@
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import { obterUsuarioLogado } from "../utils/carteiraStorage";
-
-function Perfil() {
-  const { nome, email } = obterUsuarioLogado();
-
-  return (
-    <>
-      <Header />
-
-      <div className="page-layout">
-        <Sidebar />
-
-        <main className="page-content">
-          <h1>Meu Perfil</h1>
-
-          <div className="perfil-card">
-            <div className="avatar">
-              👤
-            </div>
-
-            <h2>{nome}</h2>
-
-            <p>{email}</p>
-
-            <button>Editar perfil</button>
-          </div>
-        </main>
-      </div>
-    </>
-  );
-}
-
+import { useState } from "react"; import { useNavigate } from "react-router-dom"; import Header from "../components/Header"; import Sidebar from "../components/Sidebar"; import { api, encerrarSessao, obterUsuarioLogado, salvarSessao } from "../utils/carteiraStorage";
+function Perfil() { const navigate = useNavigate(); const usuario = obterUsuarioLogado(); const [dados, setDados] = useState({ nome: usuario.nome, email: usuario.email, senha: "", corCarteira: usuario.corCarteira || "#2b5c8a" }); const [mensagem, setMensagem] = useState(""); const [erro, setErro] = useState(""); async function salvar(e) { e.preventDefault(); setErro(""); try { const atualizado = await api("/usuarios/me", { method: "PUT", body: JSON.stringify(dados) }); const sessao = JSON.parse(localStorage.getItem("sessao")); salvarSessao({ ...sessao, usuario: atualizado }); setMensagem("Perfil atualizado com sucesso."); setDados({ ...dados, senha: "" }); } catch (err) { setErro(err.message); } } async function excluir() { if (!window.confirm("Tem certeza? Esta ação não pode ser desfeita.")) return; try { await api("/usuarios/me", { method: "DELETE" }); encerrarSessao(); navigate("/login", { state: { mensagem: "Conta excluída." } }); } catch (err) { setErro(err.message); } } return <><Header /><div className="page-layout"><Sidebar /><main className="page-content"><h1>Meu Perfil</h1><div className="perfil-card"><form onSubmit={salvar}><label>Nome</label><input value={dados.nome} onChange={(e) => setDados({ ...dados, nome: e.target.value })} required /><label>E-mail</label><input type="email" value={dados.email} onChange={(e) => setDados({ ...dados, email: e.target.value })} required /><label>Nova senha (opcional)</label><input type="password" minLength="6" value={dados.senha} onChange={(e) => setDados({ ...dados, senha: e.target.value })} /><label>Cor da carteira</label><input type="color" value={dados.corCarteira} onChange={(e) => setDados({ ...dados, corCarteira: e.target.value })} /><button>Salvar alterações</button></form><button className="danger-button" onClick={excluir}>Excluir minha conta</button>{mensagem && <p className="form-message form-message--success">{mensagem}</p>}{erro && <p className="form-message form-message--error">{erro}</p>}</div></main></div></>; }
 export default Perfil;

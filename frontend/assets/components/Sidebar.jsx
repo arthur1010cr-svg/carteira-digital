@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
+import { encerrarSessao } from "../utils/carteiraStorage";
 
 function Sidebar() {
   const navigate = useNavigate();
 
   function sair() {
-    localStorage.removeItem("usuarioLogado");
+    encerrarSessao();
     navigate("/login");
   }
 

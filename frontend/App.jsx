@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import { obterSessao } from "./assets/utils/carteiraStorage";
 
 import Home from "./assets/pages/Home";
 import Carteira from "./assets/pages/Carteira";
@@ -10,15 +11,16 @@ import Login from "./assets/pages/Login";
 import Cadastro from "./assets/pages/Cadastro";
 
 function App() {
+  const Protegida = ({ children }) => obterSessao() ? children : <Navigate to="/login" replace />;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Protegida><Home /></Protegida>} />
         <Route path="/login" element={<Login />} />
-        <Route path="/carteira" element={<Carteira />} />
-        <Route path="/transferir" element={<Transferir />} />
-        <Route path="/transacoes" element={<Transsacoes />} />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/carteira" element={<Protegida><Carteira /></Protegida>} />
+        <Route path="/transferir" element={<Protegida><Transferir /></Protegida>} />
+        <Route path="/transacoes" element={<Protegida><Transsacoes /></Protegida>} />
+        <Route path="/perfil" element={<Protegida><Perfil /></Protegida>} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="*" element={<h1>Página não encontrada</h1>} />
       </Routes>

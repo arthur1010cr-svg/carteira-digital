@@ -1,16 +1,23 @@
-# React + Vite
+# Carteira Digital
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicação web de carteira digital com React, Node.js/Express e MySQL. Permite cadastro, login, saldo, crédito de demonstração, transferência, extrato e edição ou exclusão de perfil.
 
-Currently, two official plugins are available:
+## Executar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Execute `database/schema.sql` no MySQL.
+2. Em `backend`, copie `.env.example` para `.env`, configure o banco e rode `npm install` e `npm run dev`.
+3. Em `frontend`, rode `npm install` e `npm run dev`.
 
-## React Compiler
+O front usa `http://localhost:3000/api`. Para outro endereço, defina `VITE_API_URL` em `frontend/.env`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## API
 
-## Expanding the Oxlint configuration
+Documentação OpenAPI: `http://localhost:3000/api-docs`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Rotas principais: cadastro/login, saldo, depósito, transferências, extrato e `GET|PUT|DELETE /api/usuarios/me`.
+
+## Banco
+
+O script possui `usuarios`, `contas`, `transacoes` e `logs_acesso`, com constraints, índices, view `vw_extrato`, trigger e procedure. Um usuário possui uma conta; cada transferência tem conta de origem e destino.
+
+Os requisitos, casos de uso, diagrama conceitual e dicionário resumido estão em [docs/requisitos.md](docs/requisitos.md). Os testes básicos são executados com `cd backend && npm test`.

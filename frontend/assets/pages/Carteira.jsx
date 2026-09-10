@@ -1,35 +1,4 @@
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Saldo from "../components/Saldo";
-import { formatarMoeda, obterUsuarioLogado } from "../utils/carteiraStorage";
-
-function Carteira() {
-  const { carteira } = obterUsuarioLogado();
-  return (
-    <>
-      <Header />
-
-      <div className="page-layout">
-        <Sidebar />
-
-        <main className="page-content">
-          <h1>Minha Carteira</h1>
-
-          <Saldo saldo={carteira.saldo} />
-
-          <div className="carteira-info">
-            <h2>Informações da carteira</h2>
-
-            <p>Saldo disponível: {formatarMoeda(carteira.saldo)}</p>
-
-            <p>Entradas: {formatarMoeda(carteira.entradas)}</p>
-
-            <p>Saídas: {formatarMoeda(carteira.saidas)}</p>
-          </div>
-        </main>
-      </div>
-    </>
-  );
-}
-
+import { useEffect, useState } from "react";
+import Header from "../components/Header"; import Sidebar from "../components/Sidebar"; import Saldo from "../components/Saldo"; import { api, formatarMoeda } from "../utils/carteiraStorage";
+function Carteira() { const [conta, setConta] = useState(null); const [erro, setErro] = useState(""); useEffect(() => { api("/carteiras/minha").then(setConta).catch((e) => setErro(e.message)); }, []); return <><Header /><div className="page-layout"><Sidebar /><main className="page-content"><h1>Minha Carteira</h1>{erro && <p className="form-message form-message--error">{erro}</p>}{conta ? <><Saldo saldo={conta.saldo} /><div className="carteira-info"><h2>Informações da conta</h2><p>Saldo disponível: {formatarMoeda(conta.saldo)}</p><p>Conta criada em: {new Date(conta.data_criacao).toLocaleDateString("pt-BR")}</p></div></> : !erro && <p>Carregando carteira...</p>}</main></div></>; }
 export default Carteira;
